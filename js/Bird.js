@@ -38,12 +38,12 @@
 				}else if(this.state==1){
 					//小鸟的上升
 					this.deltaY+=3;
-					this.dY=-20+this.deltaY;
+					this.dY=-20+this.deltaY ;
 					//小鸟上升的极限，就是上升的那一瞬间,往上120px
 					if(this.dY>0){
 						this.state=0;
 
-						this.dropStatFram=game.frameUtil.currentFrame;
+						this.dropStatFram=game.frameUtil.cur rentFrame;
 					}
 				}
 					
