@@ -15,6 +15,9 @@
 			//速度
 			this.speed=5;
 		},
+		 pause : function(){
+            this.speed = 0;
+        },
 		update:function(){
 			this.x-=this.speed;
 			if(this.x<-this.w){
@@ -22,15 +25,20 @@
 			}
 			//碰撞检测
 			if(game.bird.x>this.x-game.bird.w && game.bird.x<this.x+this.w){
+					//鸟已经死
 					//向上的管子
 					if(this.type==0){
 						if(game.bird.y>this.y-game.bird.h){
-							game.pause();
+							// game.pause();
+							game.gameOver();
+							return;
 						}
 					//向下的管子
 					}else if(this.type==1){
 						if(game.bird.y<=this.h){
-							game.pause();
+							// game.pause();
+							game.gameOver();
+							return;
 						}
 					}
 			}

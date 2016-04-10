@@ -18,6 +18,9 @@
 				this.x=0;
 			}
 		},
+		pause:function(){
+			this.speed=0;
+		},
 		render:function(){
 			//绘制图片，绘制2倍的图片
 			for(var i=0;i<this.amount*2;i++){

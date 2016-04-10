@@ -17,6 +17,8 @@
 			this.ctx=this.canvas.getContext("2d");
 			//实例化一个静态资源管理工具，开始加载图片
 			this.sr=new StaticResoucesUtil();
+			//
+			this.gameend=false;
 			this.sr.loadImages("r.json",function(alreadyLoadNum,allNum,imagesObj){
 
 						//清屏
@@ -44,7 +46,7 @@
 				"width":300,
 				"height":200,
 				"speed":3,
-				"y":190
+				"y":this.canvas.height-200-110
 			});
 
 			this.diban=new Background({
@@ -52,7 +54,7 @@
 				"width":48,
 				"height":48,
 				"speed":1,
-				"y":canvas.height-48
+				"y":this.canvas.height-48
 			});
 
 			// console.log(this.images.shu)
@@ -61,7 +63,7 @@
 				"width":300,
 				"height":216,
 				"speed":2,
-				"y":235
+				"y":this.canvas.height-216-48
 			});
 
 			//鸟类
@@ -100,9 +102,10 @@
 			this.bird.render();
 			
 
-			if(this.frameUtil.currentFrame % 80==0){
+			if(!this.gameend && this.frameUtil.currentFrame % 80==0){
 				this.pipeArray.push(new Pipe());
 			}
+			//管子的更新渲染
 			for (var i=0;i<this.pipeArray.length;i++){
 					this.pipeArray[i].update();
 					if(this.pipeArray[i]){
@@ -115,6 +118,23 @@
 			// this.ctx.drawImage(this.images.bird,100,100)
 			//分数的渲染,更新
 			this.scoreManager.render();
+		},
+
+		//游戏结束
+		gameOver:function(){
+			//各种暂停
+			this.fangzi.pause();
+			this.diban.pause();
+			this.shu.pause();
+
+
+			for(var i=0;i<this.pipeArray.length;i++){
+				 this.pipeArray[i].pause();
+			};
+			this.gameend=true;
+			//小鸟死亡
+			this.bird.die=true;
+
 		},
 		//暂停游戏
 		pause:function(){

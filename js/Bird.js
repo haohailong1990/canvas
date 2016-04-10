@@ -20,9 +20,21 @@
 			this.deltaY=0;
 			//翅膀扇动速度
 			this.swingSpeed=5;
+			//是否已经死了
+			this.die=false;
+			//死亡血迹动画
+			this.dieAnimate=0;
 
 		},
 		update:function(){
+			//如果小鸟已经死了
+			if(this.die){
+					this.dieAnimate++;
+					if(this.dieAnimate==30){
+						game.pause();
+					}
+					return;
+				}
 			if(game.frameUtil.currentFrame %this.swingSpeed==0){
 				this.swing++;
 				if(this.swing>2){
@@ -53,11 +65,19 @@
 				if(this.y<=0){
 					this.y=0;
 				}
+				//碰地板
 				if(this.y>game.canvas.height-this.h-49){
-					game.pause();
+					game.gameOver();
 				}
 		},
 		render:function(){
+			if(this.die){
+				var row=parseInt(this.dieAnimate/5);
+	            var col=this.dieAnimate%5;
+	                // game.ctx.clearRect(0, 0, canvas.width,canvas.height)
+	            game.ctx.drawImage(game.images.blood,325*col,138*row,325,138,this.x-155,this.y+50,325,138);	
+            	return;
+			}
 			//旋转公式
 			game.ctx.save();
 			game.ctx.translate(this.x+this.w/2,this.y+this.h/2);
@@ -77,6 +97,10 @@
 		bindClickListener:function(){
 			var self=this;
 			game.canvas.addEventListener("mousedown",function(){
+				self.fly();
+			},false)
+			game.canvas.addEventListener("touchstart", function(ev){
+				ev.preventDefault();
 				self.fly();
 			},false)
 		}
